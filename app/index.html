@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="eBanking" ng-controller="indexController" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="eBanking" ng-controller="indexController" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="eBanking" ng-controller="indexController" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html lang="en" ng-app="eBanking" ng-controller="oauthController" class="no-js">
+<!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>eBanking</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="app.css">
+    <base href="/">
+    <script src="bower_components/angular/angular.js"></script>
+  </head>
+  <body ng-cloak class="ng-cloak">
+    <nav role="navigation" class="navbar topnavbar">
+      <div class="navbar-header">
+        <a href="#/" class="navbar-brand">
+          <div class="brand-logo">
+            Grupo Lozcar
+          </div>
+        </a>
+      </div>
+      <div class="nav-wrapper" ng-show="hasToken">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#/accounts" class="nav-link">
+              <em class="fa fa-bank barIcon"></em>Cuenta
+            </a>
+          </li>
+          <li>
+            <a href="#/transfer" class="nav-link">
+              <em class="fa fa-external-link-square barIcon"></em>Pagos
+            </a>
+          </li>
+          <li>
+            <a href="#/details" class="nav-link">
+              <em class="fa fa-user barIcon"></em>Detalles de la Cuenta
+            </a>
+          </li>
+          <li>
+            <a href="#/branch" class="nav-link">
+              <em class="fa fa-map-marker barIcon"></em>Localiza tu Comedor Más Cercano
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div id="wrap">
+      <div class="container">
+        <div>
+          <h1 class="page-header">
+           Pago en Linea de Servicios Alimenticios.
+          <a id="help" class="fa fa-question-circle help" data-toggle="modal" data-target="#myModal"></a>
+          </h1>
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Ayuda</h4>
+                </div>
+                <div class="modal-body">
+                  <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">Acceso</a></li>
+                      <li role="presentation"><a href="#accounts" aria-controls="accounts" role="tab" data-toggle="tab">Cuenta</a></li>
+                      <li role="presentation"><a href="#transfer" aria-controls="transfer" role="tab" data-toggle="tab">Pagos</a></li>
+                      <li role="presentation"><a href="#details" aria-controls="details" role="tab" data-toggle="tab">Detalles</a></li>
+                      <li role="presentation"><a href="#branch" aria-controls="branch" role="tab" data-toggle="tab">Localizar Comedor</a></li>                      
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                      <div role="tabpanel" class="tab-pane active" id="login">
+                        <p>
+                        Ingresa a tu cuenta para revisar el saldo disponible para ordenar los Servicios Alimenticios que ofrece Grupo Lozcar.
+                        </p>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="accounts">
+                        <p>
+                        Despues de ingresar, se mostrará tu cuenta y podras ver los movimientos de la misma.
+                        </p>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="transfer">
+                        <p>
+                        Esta seccion te permitirá realizar abonos a tu cuenta por medios electronicos como son tarjeta de Credito, Debito, SPEI, Transfer o Pago en Tienda de Conveniencia.                        
+                        </p>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="details">
+                        <p>
+                        Aquí puedes ver los detalles de tu cuenta, los cuales podras actualizar.
+                        </p>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="branch">
+                        <p>
+                        Aquí localizas los Comedores de Grupo Lozcar más cercanos a tu ubicación.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Authentication button-->
+          <oauth class="signIn"
+            site="https://localhost:8080"
+            client-id="353b302c44574f565045687e534e7d6a"
+            redirect-uri="https://localhost:8000"
+            authorize-path="/login"
+            profile-uri="https://localhost:8080/api/customer"
+            text="Toque para iniciar sesión">
+          </oauth>           
+        </div>        
+        <div class="logged-in">
+          <div ng-view></div>
+        </div>        
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <div class="container">
+        <!--
+        <p>Created by Ryan Burke, Jorden Whitefield and Ben Fletcher</p>
+        <p>Powered by AngularJS, Bootstrap, jQuery, oauth-ng</p>
+        -->
+        <img class="ssl" src="assets/images/ssl.png" alt="SSL logo">
+      </div>
+    </footer>
+
+    <!-- Load dependencies -->
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.min.js"></script>
+    <script src="bower_components/oauth-ng/dist/oauth-ng.js"></script>
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
+
+    <!-- Import the API Service -->
+    <script src="components/APIService.js"></script>
+
+    <!-- Import the view controllers -->
+    <script src="oauth/oauth.js"></script>
+    <script src="accounts/accounts.js"></script>
+    <script src="details/details.js"></script>
+    <script src="transfer/transfer.js"></script>
+    <script src="branch/branch.js"></script>
+
+    <!-- Load the main application -->
+    <script src="app.js"></script>
+
+  </body>
+</html>

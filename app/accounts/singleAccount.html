@@ -1,0 +1,59 @@
+<div ng-app="eBanking" ng-controller="singleAccountController" ng-show="hasToken">
+	<h1 class="page-header"><a href="#/">Cuentas</a>  <em class="fa fa-angle-right"></em> {{account.accountType | capitalize}} Cuenta</h1>
+	<div class="row">
+		<div class="col-lg-4 col-md-4 col-sm-5 col-xs-8 col-centered">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3 text-center">
+							<em class="fa fa-university fa-5x"></em>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div class="text-lg balancePadding">{{account.balance | currency : "$" : 2}}</div>
+						</div>
+					</div>
+				</div>
+				<a class="panel-footer clearfix btn-block">
+					<span class="pull-left">Número de Cuenta: {{account.accountNumber}}</span><br>
+					<span class="pull-left">Referencia Bancaria: {{account.sortCode}}</span>
+				</a>
+				<!-- END panel-->
+			</div>
+		</div>
+	</div>
+	<h2 class="ng-scope">Historial</h2>
+	<ul class="timeline">
+		<li data-datetime="Ahora" class="timeline-separator"></li>
+		
+		<li ng-repeat="transaction in transactions | orderBy: '-date'" ng-class-even="'timeline-inverted'">
+			<div class="timeline-badge {{getBadgeColour(transaction.transactionType)}}">
+				<em class="fa {{getIcon(transaction.transactionType)}}"></em>
+			</div>
+			<div class="timeline-date">
+				<p>{{transaction.date | date:'medium'}}</p>
+			</div>
+			<div class="timeline-panel">
+				<div ng-class-odd="'popover left'" ng-class-even="'popover right'">
+					<div class="arrow"></div>
+					<h3 class="popover-title">{{getTitle(transaction.transactionType)}}: <strong>{{transaction.value | currency : "$" : 2}}</strong></h3>
+					<div class="popover-content">
+					<p ng-if="transaction.sending">Deposito a Cuenta: {{transaction.otherAccountNumber}}</a>
+					<br>
+					</p>
+				<p ng-if="!transaction.sending">Pago de Servicio: {{transaction.otherAccountNumber}}</a>
+				<br>
+				</p>
+			</div>
+		</li>
+		<li data-datetime="Movimientos Anteriores" class="timeline-separator wide" ng-show="!finished"></li>
+		<li>
+			<a href="" class="timeline-badge" ng-show="loading">
+				<em class="fa fa-circle-o-notch fa-spin"></em>
+			</a>
+			<a href="" ng-click="loadNext()" class="timeline-badge" ng-show="!loading; !finished">
+				<em class="fa fa-plus"></em>
+			</a>
+		</li>
+		<li data-datetime="Inicio" class="timeline-separator timeline-end" ng-show="finished"></li>
+	</ul>
+</div>
